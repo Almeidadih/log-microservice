@@ -1,4 +1,4 @@
-package com.logistica.logisticaservice;
+package com.logistica.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
