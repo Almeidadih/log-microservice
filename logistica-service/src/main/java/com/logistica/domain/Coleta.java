@@ -1,5 +1,6 @@
 package com.logistica.domain;
 
+import com.logistica.exception.EntregaInvalidaException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -95,7 +96,7 @@ public class Coleta {
      */
     public void cancelar() {
         if (status == StatusColeta.ENTREGUE) {
-            throw new com.logistica.frota.exception.ColetaNaoPodeSerCanceladaException(id);
+            throw new com.logistica.exception.ColetaNaoPodeSerCanceladaException(id);
         }
         if (status == StatusColeta.CANCELADA) {
             return; // já cancelada — idempotente, não é erro reprocessar
