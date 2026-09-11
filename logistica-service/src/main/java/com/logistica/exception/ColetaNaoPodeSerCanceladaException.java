@@ -10,7 +10,7 @@ import com.logistica.domain.ColetaId;
  * e vira um caso que precisa de intervenção humana (estorno, nova coleta de
  * devolução, etc) — não é algo que o sistema resolve sozinho.
  */
-public class ColetaNaoPodeSerCanceladaException extends RuntimeException {
+public class ColetaNaoPodeSerCanceladaException extends DominioFrotaException {
     public ColetaNaoPodeSerCanceladaException(ColetaId id) {
         super("Coleta " + id + " já foi entregue e não pode mais ser cancelada automaticamente");
     }
