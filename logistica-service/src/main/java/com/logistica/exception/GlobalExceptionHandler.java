@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.support.WebExchangeBindException;
 import reactor.core.publisher.Mono;
 
 @RestControllerAdvice
@@ -27,6 +28,17 @@ public class GlobalExceptionHandler {
         log.warn("Nota fiscal desconhecida: {}" , ex.getMessage());
         return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ErrorResponse.de(ex.getCodigo(),  ex.getMessage())));
+    }
+
+    @ExceptionHandler(WebExchangeBindException.class)
+    public Mono<ResponseEntity<ErrorResponse>> handleValidacao(WebExchangeBindException ex) {
+        String mensagem = ex.getFieldErrors().stream()
+                .map(erro -> erro.getField() + ": " + erro.getDefaultMessage())
+                .reduce((a, b) -> a + "; " + b)
+                .orElse("Dados inválidos");
+        log.warn("Erro de validação: {}", mensagem);
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.de("VALIDACAO_INVALIDA", mensagem)));
     }
 
     @ExceptionHandler({DominioFrotaException.class})
