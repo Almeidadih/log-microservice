@@ -24,14 +24,9 @@ public class Transportadora {
         this.cnpj = cnpj;
     }
 
-    private void registrar(TransportadoraId id, String nome, String cnpj) {
-        this.id = id;
-        this.nome = nome;
-        this.cnpj = cnpj;
-    }
 
-    public static Transportadora registrar(){
-        return new Transportadora(TransportadoraId.novo(), registrar().nome, registrar().cnpj);
+    public static Transportadora registrar(String nome, String cnpj){
+        return new Transportadora(TransportadoraId.novo(), nome, cnpj);
     }
 
     public TransportadoraId getId() {
