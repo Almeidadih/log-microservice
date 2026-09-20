@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="003-create-caminhao" author="diego">
+        <createTable tableName="caminhao">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="placa" type="varchar(10)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="modelo" type="varchar(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transportadora_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_caminhao_transportadora" references="transportadora(id)"/>
+            </column>
+        </createTable>
+        <createIndex indexName="idx_caminhao_transportadora" tableName="caminhao">
+            <column name="transportadora_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

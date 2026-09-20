@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="006-add-coleta-regiao" author="diego">
+        <!-- cidade/uf sao resolvidos via chamada ao cep-service no momento
+             do registro da coleta (ver ColetaService), e gravados aqui para
+             consultas futuras (ex: dashboard) nao precisarem bater no
+             cep-service de novo. -->
+        <addColumn tableName="coleta">
+            <column name="cep_origem" type="varchar(8)"/>
+            <column name="cidade" type="varchar(100)"/>
+            <column name="uf" type="varchar(2)"/>
+        </addColumn>
+
+        <createIndex indexName="idx_coleta_cidade_uf" tableName="coleta">
+            <column name="cidade"/>
+            <column name="uf"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

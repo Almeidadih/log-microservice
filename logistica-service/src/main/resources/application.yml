@@ -1,0 +1,33 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: logistica-service
+
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:logistica_frota}
+    username: ${DB_USER:logistica}
+    password: ${DB_PASSWORD:logistica}
+
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:logistica_frota}
+    user: ${DB_USER:logistica}
+    password: ${DB_PASSWORD:logistica}
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+logistica:
+  kafka:
+    topic-nota-fiscal: fiscal.nota-fiscal.eventos
+  cep-service:
+    base-url: ${CEP_SERVICE_URL:http://localhost:8083}
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [notaFiscalId=%X{notaFiscalId}] - %msg%n"
+  level:
+    com.logistica.frota: INFO

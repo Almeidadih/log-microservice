@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="005-create-coleta" author="diego">
+        <createTable tableName="coleta">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <!-- referencia "fraca" - nota_fiscal_id aponta para uma nota fiscal
+                 que vive em outro servico/banco; a FK real e so dentro de
+                 nota_fiscal_registrada, nossa projecao local. -->
+            <column name="nota_fiscal_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_coleta_nota_fiscal_registrada" references="nota_fiscal_registrada(id)"/>
+            </column>
+            <column name="transportadora_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_coleta_transportadora" references="transportadora(id)"/>
+            </column>
+            <column name="motorista_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_coleta_motorista" references="motorista(id)"/>
+            </column>
+            <column name="caminhao_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="fk_coleta_caminhao" references="caminhao(id)"/>
+            </column>
+            <column name="coletada_em" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex indexName="idx_coleta_nota_fiscal" tableName="coleta">
+            <column name="nota_fiscal_id"/>
+        </createIndex>
+        <createIndex indexName="idx_coleta_transportadora" tableName="coleta">
+            <column name="transportadora_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

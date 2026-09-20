@@ -2,6 +2,7 @@ package com.logistica.web;
 
 import com.logistica.domain.*;
 import com.logistica.service.ColetaService;
+import com.logistica.web.dto.RegistrarColetaRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
