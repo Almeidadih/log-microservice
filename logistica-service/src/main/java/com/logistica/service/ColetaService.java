@@ -10,6 +10,7 @@ import com.logistica.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.reactive.TransactionalOperator;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -24,6 +25,7 @@ public class ColetaService {
     private final MotoristaRepository motoristaRepository;
     private final CaminhaoRepository caminhaoRepository;
     private final CepClient cepClient;
+    private final TransactionalOperator TransactionalOperator;
 
 
     public ColetaService(ColetaRepository coletaRepository,
@@ -32,7 +34,7 @@ public class ColetaService {
                          TransportadoraRepository transportadoraRepository,
                          MotoristaRepository motoristaRepository,
                          CaminhaoRepository caminhaoRepository,
-                         CepClient cepClient) {
+                         CepClient cepClient, TransactionalOperator transactionalOperator) {
         this.coletaRepository = coletaRepository;
         this.outboxEventRepository = outboxEventRepository;
         this.notaFiscalRegistradaRepository = notaFiscalRegistradaRepository;
@@ -40,6 +42,7 @@ public class ColetaService {
         this.motoristaRepository = motoristaRepository;
         this.caminhaoRepository = caminhaoRepository;
         this.cepClient = cepClient;
+        TransactionalOperator = transactionalOperator;
     }
 
     /**
@@ -86,7 +89,7 @@ public class ColetaService {
                                 return outboxEventRepository.save(evento).thenReturn(salva);
                             });
 
-                    return operacao.as(transactionalOperator::transactional);
+                    return operacao.as(TransactionalOperator::transactional);
                 });
     }
 
@@ -135,7 +138,7 @@ public class ColetaService {
                             })
                             .then();
 
-                    return operacao.as(transactionalOperator::transactional);
+                    return operacao.as(TransactionalOperator::transactional);
                 })
                 .switchIfEmpty(Mono.fromRunnable(() ->
                         log.debug("Nota fiscal {} cancelada, mas nenhuma coleta associada foi encontrada — nada a compensar",
@@ -179,6 +182,6 @@ public class ColetaService {
                     return outboxEventRepository.save(evento).thenReturn(salva);
                 });
 
-        return operacao.as(transactionalOperator::transactional);
+        return operacao.as(TransactionalOperator::transactional);
     }
 }
