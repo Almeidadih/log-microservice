@@ -43,8 +43,10 @@ public class KafkaConsumerConfig {
                 ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG , false
         );
 
-        ReceiverOptions<String, String> options = ReceiverOptions.create(props)
+        ReceiverOptions<String , String> options =ReceiverOptions.<String, String>create(props)
                 .subscription(List.of(topicoNotaFiscal, topicoColeta, topicoRanking));
+//        ReceiverOptions<String, String> options = ReceiverOptions.create(props)
+//                .subscription(List.of(topicoNotaFiscal, topicoColeta, topicoRanking));
 
         return KafkaReceiver.create(options);
     }

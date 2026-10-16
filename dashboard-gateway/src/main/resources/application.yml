@@ -1,0 +1,26 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: dashboard-gateway
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+dashboard:
+  kafka:
+    topic-nota-fiscal: fiscal.nota-fiscal.eventos
+    topic-coleta: logistica.coleta.eventos
+    topic-ranking: avaliacao.ranking.eventos
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    com.logistica.dashboard: INFO
