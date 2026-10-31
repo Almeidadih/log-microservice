@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="001-create-endereco" author="diego">
+        <createTable tableName="endereco">
+            <column name="cep" type="varchar(8)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="logradouro" type="varchar(150)"/>
+            <column name="bairro" type="varchar(100)"/>
+            <column name="cidade" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uf" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="double">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="idx_endereco_cidade_uf" tableName="endereco">
+            <column name="cidade"/>
+            <column name="uf"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

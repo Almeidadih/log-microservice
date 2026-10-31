@@ -1,11 +1,10 @@
 package com.logistica.cepservice.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.logistica.cepservice.domain.Endereco;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
@@ -22,13 +21,13 @@ public class RedisConfig {
 
     @Bean
     public ReactiveRedisTemplate<String, Endereco> enderecoRedisTemplate(
-            RedisConnectionFactory connectionFactory , ObjectMapper objectMapper) {
+            ReactiveRedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
 
         Jackson2JsonRedisSerializer<Endereco> serializer =
                 new Jackson2JsonRedisSerializer<>(objectMapper, Endereco.class);
 
         RedisSerializationContext<String, Endereco> context = RedisSerializationContext
-                .newSerializationContext(new StringRedisSerializer())
+                .<String, Endereco>newSerializationContext(new StringRedisSerializer())
                 .value(serializer)
                 .build();
 
