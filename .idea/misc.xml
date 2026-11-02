@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/fiscal-service/pom.xml" />
         <option value="$PROJECT_DIR$/dashboard-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/cep-service/pom.xml" />
+        <option value="$PROJECT_DIR$/avaliacao-service/pom.xml" />
       </list>
     </option>
   </component>
